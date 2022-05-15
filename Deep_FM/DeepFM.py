@@ -199,10 +199,8 @@ def validation_model(sess, model, print_every=50):
     # get testing data, iterable
     validation_data = pd.read_csv('/home/katy/CTR_prediction/avazu_CTR/train.csv',
                                   chunksize=model.batch_size)
-    # testing step
-    valid_step = 1
     # batch_size data
-    for data in validation_data:
+    for valid_step, data in enumerate(validation_data, start=1):
         actual_batch_size = len(data)
         batch_X = []
         batch_y = []
@@ -232,7 +230,6 @@ def validation_model(sess, model, print_every=50):
         if valid_step % print_every == 0:
             logging.info("Iteration {0}: with minibatch training loss = {1} and accuracy of {2}"
                          .format(valid_step, loss, accuracy))
-        valid_step += 1
     # print loss and accuracy of one epoch
     total_correct = num_corrects/num_samples
     total_loss = np.sum(losses)/num_samples
@@ -303,12 +300,7 @@ if __name__ == '__main__':
     train_array_length = max(fields_train_dict['click'].values()) + 1
     test_array_length = train_array_length - 2
     # initialize the model
-    config = {}
-    config['lr'] = 0.01
-    config['batch_size'] = 512
-    config['reg_l1'] = 2e-3
-    config['reg_l2'] = 0
-    config['k'] = 40
+    config = {'lr': 0.01, 'batch_size': 512, 'reg_l1': 0.002, 'reg_l2': 0, 'k': 40}
     # get feature length
     feature_length = test_array_length
     # num of fields

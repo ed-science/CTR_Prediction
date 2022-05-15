@@ -28,35 +28,27 @@ def one_hot_representation(sample, fields_dict, isample):
 
 def train_sparse_data_generate(train_data, fields_dict):
     sparse_data = []
-    # batch_index
-    ibatch = 0
-    for data in train_data:
+    for ibatch, data in enumerate(train_data, start=1):
         labels = []
         indexes = []
         for i in range(len(data)):
             sample = data.iloc[i,:]
             click = sample['click']
             # get labels
-            if click == 0:
-                label = 0
-            else:
-                label = 1
+            label = 0 if click == 0 else 1
             labels.append(label)
             # get indexes
             index = one_hot_representation(sample,fields_dict, i)
             indexes.extend(index)
         sparse_data.append({'indexes':indexes, 'labels':labels})
-        ibatch += 1
         if ibatch % 200 == 0:
-            logging.info('{}-th batch has finished'.format(ibatch))
+            logging.info(f'{ibatch}-th batch has finished')
     with open('../avazu_CTR/train_sparse_data_frac_0.01.pkl','wb') as f:
         pickle.dump(sparse_data, f)
 
 def test_sparse_data_generate(test_data, fields_dict):
     sparse_data = []
-    # batch_index
-    ibatch = 0
-    for data in test_data:
+    for ibatch, data in enumerate(test_data, start=1):
         ids = []
         indexes = []
         for i in range(len(data)):
@@ -65,9 +57,8 @@ def test_sparse_data_generate(test_data, fields_dict):
             index = one_hot_representation(sample,fields_dict, i)
             indexes.extend(index)
         sparse_data.append({'indexes':indexes, 'id':ids})
-        ibatch += 1
         if ibatch % 200 == 0:
-            logging.info('{}-th batch has finished'.format(ibatch))
+            logging.info(f'{ibatch}-th batch has finished')
     with open('../avazu_CTR/test_sparse_data_frac_0.01.pkl','wb') as f:
         pickle.dump(sparse_data, f)
 

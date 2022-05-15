@@ -194,18 +194,13 @@ if __name__ == '__main__':
     # loading dicts
     fields_dict = {}
     for field in fields:
-        with open('dicts/'+field+'.pkl','rb') as f:
+        with open(f'dicts/{field}.pkl', 'rb') as f:
             fields_dict[field] = pickle.load(f)
     # length of representation
     train_array_length = max(fields_dict['click'].values()) + 1
     test_array_length = train_array_length - 2
     # initialize the model
-    config = {}
-    config['lr'] = 0.01
-    config['batch_size'] = 512
-    config['reg_l1'] = 2e-2
-    config['reg_l2'] = 0
-    config['k'] = 40
+    config = {'lr': 0.01, 'batch_size': 512, 'reg_l1': 0.02, 'reg_l2': 0, 'k': 40}
     # get feature length
     feature_length = test_array_length
     # initialize FM model

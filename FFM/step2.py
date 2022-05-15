@@ -91,7 +91,7 @@ for field in direct_encoding_fields:
         feature2field[ind] = field_index
         ind += 1
     field_index += 1
-    with open('dicts/'+field+'.pkl', 'wb') as f:
+    with open(f'dicts/{field}.pkl', 'wb') as f:
         pickle.dump(field_dict, f)
 
 for field in frequency_encoding_fields:
@@ -100,7 +100,7 @@ for field in frequency_encoding_fields:
     index_rare = None
     for k,count in field2count.items():
         if count < 10:
-            if index_rare == None:
+            if index_rare is None:
                 field_dict[k] = ind
                 feature2field[ind] = field_index
                 index_rare = ind
@@ -114,7 +114,7 @@ for field in frequency_encoding_fields:
             feature2field[ind] = field_index
             ind += 1
     field_index += 1
-    with open('dicts/'+field+'.pkl', 'wb') as f:
+    with open(f'dicts/{field}.pkl', 'wb') as f:
         pickle.dump(field_dict, f)
 
 
