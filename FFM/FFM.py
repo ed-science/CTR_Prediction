@@ -202,14 +202,16 @@ if __name__ == '__main__':
     train_array_length = max(fields_dict['click'].values()) + 1
     test_array_length = train_array_length - 2
     # initialize the model
-    config = {}
-    config['lr'] = 0.01
-    config['batch_size'] = 512
-    config['reg_l1'] = 2e-3
-    config['reg_l2'] = 0
-    config['k'] = 4
-    config['f'] = len(fields) - 1
-    config['feature2field'] = feature2field
+    config = {
+        'lr': 0.01,
+        'batch_size': 512,
+        'reg_l1': 0.002,
+        'reg_l2': 0,
+        'k': 4,
+        'f': len(fields) - 1,
+        'feature2field': feature2field,
+    }
+
     # get feature length
     feature_length = test_array_length
     # initialize FFM model
